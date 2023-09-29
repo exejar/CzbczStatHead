@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "Stat Head Mod",
+    "description": "Displays Hypixel stats above players heads",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/exejar/CzbczStatHead",
+    "updateUrl": "",
+    "authorList": [
+      "exejar"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
