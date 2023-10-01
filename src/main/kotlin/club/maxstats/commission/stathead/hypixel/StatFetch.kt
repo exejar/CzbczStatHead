@@ -165,13 +165,25 @@ data class HypixelAchievement(
 data class HypixelBedwars(
     val final_kills_bedwars: Int = 0,
     val final_deaths_bedwars: Int = 0,
-    val kills: Int = 0,
-    val deaths: Int = 0
+    val kills_bedwars: Int = 0,
+    val deaths_bedwars: Int = 0
 ) {
-    fun getFKDR(): String =
-        "%.2f".format(final_kills_bedwars.toDouble() / final_deaths_bedwars.coerceAtLeast(1).toDouble())
-    fun getKDR(): String =
-        "%.2f".format(kills.toDouble() / deaths.coerceAtLeast(1).toDouble())
+    fun getFKDR(): String {
+        val kdr = final_kills_bedwars.toDouble() / final_deaths_bedwars.coerceAtLeast(1).toDouble()
+
+        return if (kdr >= 5)
+            "${ChatColor.GOLD}%.2f".format(kdr)
+        else
+            "${ChatColor.WHITE}%.2f".format(kdr)
+    }
+    fun getKDR(): String {
+        val kdr = kills_bedwars.toDouble() / deaths_bedwars.coerceAtLeast(1).toDouble()
+
+        return if (kdr >= 5)
+            "${ChatColor.GOLD}%.2f".format(kdr)
+        else
+            "${ChatColor.WHITE}%.2f".format(kdr)
+    }
 }
 @Serializable
 data class HypixelSkywars(
@@ -179,6 +191,13 @@ data class HypixelSkywars(
     val kills: Int = 0,
     val deaths: Int = 0
 ) {
-    fun getKDR(): String =
-        "%.2f".format(kills.toDouble() / deaths.coerceAtLeast(1).toDouble())
+    fun getKDR(): String {
+        val kdr = kills.toDouble() / deaths.coerceAtLeast(1).toDouble()
+
+        return if (kdr >= 5)
+            "${ChatColor.GOLD}%.2f".format(kdr)
+        else
+            "${ChatColor.WHITE}%.2f".format(kdr)
+    }
+
 }
