@@ -6,7 +6,6 @@ import club.maxstats.commission.stathead.hypixel.StatWorld
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.client.event.RenderPlayerEvent
@@ -23,13 +22,14 @@ class Main {
     fun init(event: FMLInitializationEvent) {
         val file = File("stathead.conf").also {
             if (it.createNewFile())
-                it.writeBytes(Json.encodeToString(Config()).toByteArray())
+                it.writeText(Json.encodeToString(Config()))
         }
 
-        val config = StatFetch.json.decodeFromStream<Config>(file.inputStream())
+        val config = StatFetch.json.decodeFromString<Config>(file.readText())
         StatFetch.API_KEY = config.apiKey
 
         ClientCommandHandler.instance.registerCommand(SetApiKeyCommand)
+        ClientCommandHandler.instance.registerCommand(ToggleSecondStatCommand)
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(LocrawHandler)
     }

@@ -49,11 +49,13 @@ object TagRenderer {
         else {
             val stats: Pair<String, String> = when(StatWorld.gameMode) {
                 GameType.SKYWARS -> "Level: ${playerAPI.stats.skywars.levelFormatted}" to "KDR: ${playerAPI.stats.skywars.getKDR()}"
-                GameType.BEDWARS -> "Star: ${playerAPI.achievements.formattedBedwarsLevel()}" to "FKDR: ${playerAPI.stats.bedwars.getFKDR()}"
+                GameType.BEDWARS -> "Level: ${playerAPI.achievements.formattedBedwarsLevel()}" to "FKDR: ${playerAPI.stats.bedwars.getFKDR()}"
                 else -> "" to ""
             }
-            renderTag(fontRenderer, stats.second)
-            GlStateManager.translate(0f, -9.5f, 0f)
+            if (ToggleSecondStatCommand.toggled) {
+                renderTag(fontRenderer, stats.second)
+                GlStateManager.translate(0f, -9.5f, 0f)
+            }
             renderTag(fontRenderer, stats.first)
         }
 

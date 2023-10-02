@@ -23,7 +23,7 @@ object StatFetch {
      */
     fun fetchStats(player: EntityPlayer): Future<HypixelPlayer>? {
         if (API_KEY.isEmpty()) {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText("${ChatColor.RED}API Key is not set, failed to fetch player stats for ${player.name}"))
+            Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText("${ChatColor.GOLD}[StatHead] ${ChatColor.RED}API Key is not set, failed to fetch player stats for ${player.name}"))
             return null
         }
         return Async.async {
@@ -78,7 +78,7 @@ data class HypixelGeneral(
 )
 @Serializable
 data class HypixelAchievement(
-    val bedwars_level: Int = 0
+    val bedwars_level: Int = -1
 ) {
     private val colors = arrayOf(
         ChatColor.RED, ChatColor.GOLD, ChatColor.YELLOW, ChatColor.GREEN, ChatColor.AQUA, ChatColor.LIGHT_PURPLE, ChatColor.DARK_PURPLE
@@ -163,10 +163,10 @@ data class HypixelAchievement(
 }
 @Serializable
 data class HypixelBedwars(
-    val final_kills_bedwars: Int = 0,
-    val final_deaths_bedwars: Int = 0,
-    val kills_bedwars: Int = 0,
-    val deaths_bedwars: Int = 0
+    val final_kills_bedwars: Int = -1,
+    val final_deaths_bedwars: Int = 1,
+    val kills_bedwars: Int = -1,
+    val deaths_bedwars: Int = 1
 ) {
     fun getFKDR(): String {
         val kdr = final_kills_bedwars.toDouble() / final_deaths_bedwars.coerceAtLeast(1).toDouble()
@@ -188,8 +188,8 @@ data class HypixelBedwars(
 @Serializable
 data class HypixelSkywars(
     val levelFormatted: String = "${ChatFormatting.GRAY}-",
-    val kills: Int = 0,
-    val deaths: Int = 0
+    val kills: Int = -1,
+    val deaths: Int = -1
 ) {
     fun getKDR(): String {
         val kdr = kills.toDouble() / deaths.coerceAtLeast(1).toDouble()
