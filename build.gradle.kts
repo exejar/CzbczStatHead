@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.10"
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 val baseGroup: String by project
@@ -63,13 +64,26 @@ tasks.processResources {
 
 val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("")
-    from(tasks.jar)
-    input.set(tasks.jar.get().archiveFile)
+    from(tasks.shadowJar)
+    input.set(tasks.shadowJar.get().archiveFile)
 }
 
 tasks.jar {
     archiveClassifier.set("without-deps")
     destinationDirectory.set(layout.buildDirectory.dir("badjars"))
+}
+
+tasks.shadowJar {
+    destinationDirectory.set(layout.buildDirectory.dir("badjars"))
+    archiveClassifier.set("all-dev")
+    doLast {
+        configurations.forEach {
+            println("Copying jars into mod: ${it.files}")
+        }
+    }
+
+    // If you want to include other dependencies and shadow them, you can relocate them in here
+    fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
