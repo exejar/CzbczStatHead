@@ -1,8 +1,6 @@
 package club.maxstats.commission.stathead
 
-import club.maxstats.commission.stathead.hypixel.LocrawHandler
-import club.maxstats.commission.stathead.hypixel.StatFetch
-import club.maxstats.commission.stathead.hypixel.StatWorld
+import club.maxstats.commission.stathead.hypixel.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -49,7 +47,7 @@ class Main {
     @SubscribeEvent
     fun render(event: RenderPlayerEvent.Pre) {
         val player = event.entityPlayer
-        val playerStats = StatWorld.statPlayers[player]?.stats ?: return
+        val playerStats = StatWorld.statPlayers[player.uniqueID]?.stats ?: return
 
         if (PlayerHandler.shouldRender(player)) {
             val scoreboard = player.worldScoreboard

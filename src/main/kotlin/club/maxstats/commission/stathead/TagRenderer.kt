@@ -24,6 +24,9 @@ object TagRenderer {
         renderY: Double,
         renderZ: Double
     ) {
+        if (player.isSneaking)
+            return
+
         val fontRenderer = renderer.fontRendererFromRenderManager
         val renderManager = renderer.renderManager
         val f = 1.6f

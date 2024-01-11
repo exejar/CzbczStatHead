@@ -1,9 +1,9 @@
 package club.maxstats.commission.stathead.hypixel
 
-import net.minecraft.entity.player.EntityPlayer
+import java.util.UUID
 
 object StatWorld {
-    val statPlayers: HashMap<EntityPlayer, StatPlayer> = HashMap()
+    val statPlayers: HashMap<UUID, StatPlayer> = HashMap()
     var locrawInfo: LocrawInfo? = null
     var isHypixel: Boolean = false
     val gameMode: GameType get() = locrawInfo?.gametype ?: GameType.UNKNOWN

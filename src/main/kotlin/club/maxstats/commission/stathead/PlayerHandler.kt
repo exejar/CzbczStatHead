@@ -7,6 +7,7 @@ import club.maxstats.commission.stathead.hypixel.StatPlayer
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.scoreboard.Team
+import java.util.UUID
 
 object PlayerHandler {
     private val mc = Minecraft.getMinecraft()
@@ -15,10 +16,10 @@ object PlayerHandler {
         checkCacheSize()
         for (player in mc.theWorld.playerEntities) {
             if (shouldRender(player)) {
-                if (!StatWorld.statPlayers.contains(player)) {
+                if (!StatWorld.statPlayers.contains(player.uniqueID)) {
                     val isNicked = player.uniqueID.version() == 1
 
-                    StatWorld.statPlayers[player] = StatPlayer(
+                    StatWorld.statPlayers[player.uniqueID] = StatPlayer(
                         player.uniqueID.toString(),
                         player.name,
                         HypixelPlayer(nicked = isNicked)
@@ -73,13 +74,13 @@ object PlayerHandler {
     private fun checkCacheSize() {
         val max = 500
         if (StatWorld.statPlayers.size > max) {
-            val safePlayers = mutableListOf<EntityPlayer>()
+            val safePlayers = mutableListOf<UUID>()
             for (player in mc.theWorld.playerEntities)
-                safePlayers += player
+                safePlayers += player.uniqueID
 
-            for (player in StatWorld.statPlayers.keys) {
-                if (!safePlayers.contains(player))
-                    StatWorld.statPlayers.remove(player)
+            for (uuid in StatWorld.statPlayers.keys) {
+                if (!safePlayers.contains(uuid))
+                    StatWorld.statPlayers.remove(uuid)
             }
         }
     }

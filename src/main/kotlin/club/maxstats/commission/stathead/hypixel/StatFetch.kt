@@ -34,7 +34,7 @@ object StatFetch {
                     connect()
 
                     if (responseCode != HttpURLConnection.HTTP_OK) {
-                        StatWorld.statPlayers[player] =
+                        StatWorld.statPlayers[uuid] =
                             StatPlayer(player.uniqueID.toString(), player.name, HypixelPlayer())
 
                         // not used
@@ -44,7 +44,7 @@ object StatFetch {
                     val text = inputStream.bufferedReader().use { it.readText() }.also { disconnect() }
                     val decoded = json.decodeFromString<HypixelResponse>(text)
 
-                    StatWorld.statPlayers[player] =
+                    StatWorld.statPlayers[uuid] =
                             StatPlayer(player.uniqueID.toString(), player.name, decoded.player)
 
                     // not used
@@ -53,7 +53,7 @@ object StatFetch {
             } catch (ex: Exception) {
                 ex.printStackTrace()
 
-                StatWorld.statPlayers[player] =
+                StatWorld.statPlayers[uuid] =
                     StatPlayer(player.uniqueID.toString(), player.name, HypixelPlayer())
                 return@async HypixelPlayer()
             }
